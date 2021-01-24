@@ -55,4 +55,11 @@ ls -l ${LOOPBACK_DEVICE}*
 
 # Partition 情報を確認する
 sudo fdisk -l ${LOOPBACK_DEVICE}
+
+# ファイルシステムのチェックを行う
+sudo fsck ${LOOPBACK_DEVICE_PART}
+
+# ループバックデバイスを解放する。
+sudo losetup -d ${LOOPBACK_DEVICE}
+
 echo SUCCESS
