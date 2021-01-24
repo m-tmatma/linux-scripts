@@ -63,4 +63,7 @@ sudo mount ${LOOPBACK_DEVICE_PART} ${MOUNT_POINT}
 # マウントしたファイルシステムの中身を確認する
 # 必要に応じて書き換えることが可能
 sudo ls -l ${MOUNT_POINT}
+
+# Partition 情報を確認する
+sudo fdisk -l ${LOOPBACK_DEVICE}
 echo SUCCESS
