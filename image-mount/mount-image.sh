@@ -3,8 +3,11 @@
 # イメージファイルのファイル名
 FILENAME=$1
 
+# Partition number
+PARTITION_NUMBER=${2:-2}
+
 # マウントポイント
-MOUNT_POINT=${2:-$(pwd)/mnt}
+MOUNT_POINT=${3:-$(pwd)/mnt/partition${PARTITION_NUMBER}}
 
 # 引数で指定したイメージをループバックデバイスに関連づける。ループバックデバイス名は変数 LOOPBACK_DEVICE に割り当てる。
 LOOPBACK_DEVICE=$(sudo losetup -P --show -f ${FILENAME})
@@ -17,7 +20,7 @@ losetup -l
 # パーティション1 は /dev/loopXXXp1
 # パーティション2 は /dev/loopXXXp2
 # というように p数字 という suffix がついたデバイスが作られる。
-LOOPBACK_DEVICE_P2=${LOOPBACK_DEVICE}p2
+LOOPBACK_DEVICE_P2=${LOOPBACK_DEVICE}p${PARTITION_NUMBER}
 
 # 割り当てたイメージファイルの各パーティションに対応するループバックデバイス名一覧を表示する。
 ls -l ${LOOPBACK_DEVICE}*
