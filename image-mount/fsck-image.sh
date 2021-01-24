@@ -30,9 +30,6 @@ fi
 # Partition number (default is 2)
 PARTITION_NUMBER=${2:-2}
 
-# マウントポイント
-MOUNT_POINT=${3:-$(pwd)/mnt/partition${PARTITION_NUMBER}}
-
 # enable verbose output
 echo ----------------- enable verbose output -----------------
 set -x
