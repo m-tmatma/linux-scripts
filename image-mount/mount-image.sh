@@ -16,8 +16,14 @@ fi
 # ループバックデバイス
 EXISTING_LOOPBACK=$(losetup -j ${FILENAME} | cut -d ':' -f 1)
 if [ -n "${EXISTING_LOOPBACK}" ]; then
-    echo ${FILENAME} is already assigned.
-    echo run umount-image.sh ${FILENAME} first.
+    MOUNT_POINTS=$(lsblk -o MOUNTPOINT ${EXISTING_LOOPBACK} | sed -e '1d' | uniq | awk 'NF')
+
+    echo "ERROR:"
+    echo "ERROR: ${FILENAME} is already assigned."
+    echo "ERROR: run umount-image.sh ${FILENAME} first."
+    echo "ERROR:"
+    echo "ERROR: mounted at ${EXISTING_LOOPBACK}"
+    echo "ERROR: mounted at ${MOUNT_POINTS}"
     exit 1
 fi
 
