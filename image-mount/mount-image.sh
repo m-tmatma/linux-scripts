@@ -13,6 +13,14 @@ if [ ! -e ${FILENAME} ]; then
     exit 1
 fi
 
+# ループバックデバイス
+EXISTING_LOOPBACK=$(losetup -j ${FILENAME} | cut -d ':' -f 1)
+if [ -n "${EXISTING_LOOPBACK}" ]; then
+    echo ${FILENAME} is already assigned.
+    echo run umount-image.sh ${FILENAME} first.
+    exit 1
+fi
+
 # Partition number
 PARTITION_NUMBER=${2:-2}
 
