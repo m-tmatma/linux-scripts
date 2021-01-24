@@ -53,17 +53,6 @@ LOOPBACK_DEVICE_PART=${LOOPBACK_DEVICE}p${PARTITION_NUMBER}
 # 割り当てたイメージファイルの各パーティションに対応するループバックデバイス名一覧を表示する。
 ls -l ${LOOPBACK_DEVICE}*
 
-if [ ! -e $MOUNT_POINT ]; then
-    mkdir -p $MOUNT_POINT
-fi
-
-# 割り当てたループバックデバイスをマウントする
-sudo mount ${LOOPBACK_DEVICE_PART} ${MOUNT_POINT}
-
-# マウントしたファイルシステムの中身を確認する
-# 必要に応じて書き換えることが可能
-sudo ls -l ${MOUNT_POINT}
-
 # Partition 情報を確認する
 sudo fdisk -l ${LOOPBACK_DEVICE}
 echo SUCCESS
