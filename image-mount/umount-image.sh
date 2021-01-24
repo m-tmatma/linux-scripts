@@ -37,3 +37,4 @@ sudo umount ${LOOPBACK_DEVICE_PART}
 
 # ループバックデバイスを解放する。
 sudo losetup -d ${LOOPBACK_DEVICE}
+echo SUCCESS
