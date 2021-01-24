@@ -30,7 +30,7 @@ sudo mount ${LOOPBACK_DEVICE_P2} ${MOUNT_POINT}
 sudo ls -l ${MOUNT_POINT}
 
 # マウント解除する。
-sudo umount ${MOUNT_POINT}
+sudo umount ${LOOPBACK_DEVICE_P2}
 
 # ループバックデバイスを解放する。
 sudo losetup -d ${LOOPBACK_DEVICE}
