@@ -10,7 +10,7 @@ MOUNT_POINT=$2
 LOOPBACK_DEVICE=$(sudo losetup -P --show -f ${FILENAME})
 
 # ループバックデバイス一覧を表示する
-sudo  losetup -l
+losetup -l
 
 # 複数パーティションを含むイメージデータをマウントするときの肝
 # 複数パーティションを含むイメージデータをループバックデバイスにマウントすると
@@ -20,7 +20,7 @@ sudo  losetup -l
 LOOPBACK_DEVICE_P2=${LOOPBACK_DEVICE}p2
 
 # 割り当てたイメージファイルの各パーティションに対応するループバックデバイス名一覧を表示する。
-sudo ls -l ${LOOPBACK_DEVICE}*
+ls -l ${LOOPBACK_DEVICE}*
 
 # 割り当てたループバックデバイスをマウントする
 sudo mount ${LOOPBACK_DEVICE_P2} ${MOUNT_POINT}
