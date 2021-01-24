@@ -13,6 +13,9 @@ if [ ! -e ${FILENAME} ]; then
     exit 1
 fi
 
+# Partition number
+PARTITION_NUMBER=${2:-2}
+
 # 引数で指定したイメージをループバックデバイスに関連づける。ループバックデバイス名は変数 LOOPBACK_DEVICE に割り当てる。
 LOOPBACK_DEVICE=$(losetup -j ${FILENAME} | cut -d ':' -f 1)
 
@@ -24,7 +27,7 @@ losetup -l
 # パーティション1 は /dev/loopXXXp1
 # パーティション2 は /dev/loopXXXp2
 # というように p数字 という suffix がついたデバイスが作られる。
-LOOPBACK_DEVICE_P2=${LOOPBACK_DEVICE}p2
+LOOPBACK_DEVICE_P2=${LOOPBACK_DEVICE}p${PARTITION_NUMBER}
 
 # 割り当てたイメージファイルの各パーティションに対応するループバックデバイス名一覧を表示する。
 ls -l ${LOOPBACK_DEVICE}*
