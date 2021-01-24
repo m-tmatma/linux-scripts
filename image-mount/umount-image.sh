@@ -2,12 +2,19 @@
 
 # イメージファイルのファイル名
 FILENAME=$1
+if [ x${FILENAME} = x"" ]; then
+    echo no parameter.
+    exit 1
+fi
 
-# マウントポイント
-MOUNT_POINT=${2:-$(pwd)/mnt}
+FILENAME=$(readlink -f ${FILENAME})
+if [ ! -e ${FILENAME} ]; then
+    echo ${FILENAME} does not exist.
+    exit 1
+fi
 
 # 引数で指定したイメージをループバックデバイスに関連づける。ループバックデバイス名は変数 LOOPBACK_DEVICE に割り当てる。
-LOOPBACK_DEVICE=$(sudo losetup -P --show -f ${FILENAME})
+LOOPBACK_DEVICE=$(losetup -j ${FILENAME} | cut -d ':' -f 1)
 
 # ループバックデバイス一覧を表示する
 losetup -l
@@ -21,17 +28,6 @@ LOOPBACK_DEVICE_P2=${LOOPBACK_DEVICE}p2
 
 # 割り当てたイメージファイルの各パーティションに対応するループバックデバイス名一覧を表示する。
 ls -l ${LOOPBACK_DEVICE}*
-
-if [ ! -e $MOUNT_POINT ]; then
-    mkdir -p $MOUNT_POINT
-fi
-
-# 割り当てたループバックデバイスをマウントする
-sudo mount ${LOOPBACK_DEVICE_P2} ${MOUNT_POINT}
-
-# マウントしたファイルシステムの中身を確認する
-# 必要に応じて書き換えることが可能
-sudo ls -l ${MOUNT_POINT}
 
 # マウント解除する。
 sudo umount ${LOOPBACK_DEVICE_P2}

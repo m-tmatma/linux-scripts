@@ -32,9 +32,3 @@ sudo mount ${LOOPBACK_DEVICE_P2} ${MOUNT_POINT}
 # マウントしたファイルシステムの中身を確認する
 # 必要に応じて書き換えることが可能
 sudo ls -l ${MOUNT_POINT}
-
-# マウント解除する。
-sudo umount ${LOOPBACK_DEVICE_P2}
-
-# ループバックデバイスを解放する。
-sudo losetup -d ${LOOPBACK_DEVICE}
