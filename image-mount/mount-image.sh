@@ -1,13 +1,27 @@
-#!/bin/sh -ex
+#!/bin/sh -e
 
 # イメージファイルのファイル名
 FILENAME=$1
+if [ x${FILENAME} = x"" ]; then
+    echo no parameter.
+    exit 1
+fi
+
+FILENAME=$(readlink -f ${FILENAME})
+if [ ! -e ${FILENAME} ]; then
+    echo ${FILENAME} does not exist.
+    exit 1
+fi
 
 # Partition number
 PARTITION_NUMBER=${2:-2}
 
 # マウントポイント
 MOUNT_POINT=${3:-$(pwd)/mnt/partition${PARTITION_NUMBER}}
+
+# enable verbose output
+echo ----------------- enable verbose output -----------------
+set -x
 
 # 引数で指定したイメージをループバックデバイスに関連づける。ループバックデバイス名は変数 LOOPBACK_DEVICE に割り当てる。
 LOOPBACK_DEVICE=$(sudo losetup -P --show -f ${FILENAME})
