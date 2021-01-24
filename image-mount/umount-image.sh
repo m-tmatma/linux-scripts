@@ -13,7 +13,7 @@ if [ ! -e ${FILENAME} ]; then
     exit 1
 fi
 
-# Partition number
+# Partition number (default is 2)
 PARTITION_NUMBER=${2:-2}
 
 # 引数で指定したイメージをループバックデバイスに関連づける。ループバックデバイス名は変数 LOOPBACK_DEVICE に割り当てる。

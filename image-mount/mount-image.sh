@@ -27,7 +27,7 @@ if [ -n "${EXISTING_LOOPBACK}" ]; then
     exit 1
 fi
 
-# Partition number
+# Partition number (default is 2)
 PARTITION_NUMBER=${2:-2}
 
 # マウントポイント
