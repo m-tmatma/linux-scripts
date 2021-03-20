@@ -4,6 +4,7 @@ import string
 import subprocess
 import os
 import sys
+import shutil
 
 ###########################################################################
 #  template for /etc/apt/apt.conf
@@ -57,7 +58,7 @@ def write_proxy(file_name, input_template, http_proxy_url, https_proxy_url):
         print("wrote: " + file_name)
     else:
         if os.path.exists(file_name):
-            os.unlink(file_name)
+            shutil.rmtree(file_name)
         print("removed: " + file_name)
 
 ###########################################################################
@@ -138,11 +139,11 @@ if __name__ == '__main__':
         usage()
         sys.exit(1)
 
-    exec('apt install -y docker.io docker-compose')
-
     write_apt_conf(http_proxy_url, https_proxy_url)
     write_docker_service_override(http_proxy_url, https_proxy_url)
     write_docker_config(http_proxy_url, https_proxy_url)
 
+    if shutil.which('docker') is None:
+        exec('apt install -y docker.io docker-compose')
     exec('systemctl daemon-reload')
     exec('systemctl restart docker')
