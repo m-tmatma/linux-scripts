@@ -8,6 +8,9 @@ COMMAND=
 if [ x"$ACTION" = x"bash" ]; then
     OPTION=-it
     COMMAND=bash
+elif [ x"$ACTION" = x"daemon" -o x"$ACTION" = x"" ]; then
+    OPTION=-d
+    COMMAND=
 fi
 
 docker run \
