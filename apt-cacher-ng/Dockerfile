@@ -1,5 +1,6 @@
+# see https://runebook.dev/ja/docs/docker/engine/examples/apt-cacher-ng/index
 #
-# ビルド：docker build -tapt-cacher。
+# ビルド：docker build -t apt-cacher
 # 実行：docker run -d -p 3142：3142 --name apt-cacher-run apt-cacher
 #
 # 次に、次のコマンドでコンテナを実行できます。
