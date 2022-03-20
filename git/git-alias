@@ -11,5 +11,6 @@ alias pf='git push origin HEAD -u --force-with-lease'
 alias rh='git rev-parse --short HEAD'
 alias f='git rev-parse HEAD'
 alias s='git show -s'
+alias up='sudo apt update ; sudo apt upgrade -y ; sudo apt autoremove -y'
 
 alias
