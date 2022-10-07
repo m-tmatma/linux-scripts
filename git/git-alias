@@ -12,5 +12,6 @@ alias rh='git rev-parse --short HEAD'
 alias f='git rev-parse HEAD'
 alias s='git show -s'
 alias up='sudo apt update ; sudo apt upgrade -y ; sudo apt autoremove -y'
+alias rmerge='git branch --merged | grep -v -P "\*|main|master|develop|release" | xargs -r git branch -d'
 
 alias
