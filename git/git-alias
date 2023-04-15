@@ -15,23 +15,28 @@ alias up='sudo apt update ; sudo apt upgrade -y ; sudo apt autoremove -y'
 alias syncfork='gh repo list --limit 200  --fork --json nameWithOwner  --jq '\''.[].nameWithOwner'\'' | xargs -n1  gh repo sync'
 #alias rm-merge='git show-branch remotes/origin/master > /dev/null  2>&1; if [ $? -eq 0 ]; then git branch --merged origin/master | grep -v -P "\*|main|master|develop|release" | xargs -r git branch -d; fi'
 
+function rm-merge-enum() {
+    branch_name=$1
+    git show-branch $branch_name > /dev/null  2>&1;
+    if [ $? -eq 0 ]; then
+        git branch --merged $branch_name | grep -v -P "\*|main|master|develop|release";
+    fi
+}
+
 function rm-merge-base() {
     branch_name=$1
     action=$2
-    git show-branch $branch_name > /dev/null  2>&1;
-    if [ $? -eq 0 ]; then
-        case $action in
-            "run" | "")
-                git branch --merged $branch_name | grep -v -P "\*|main|master|develop|release" | xargs -r git branch -d;
-                ;;
-            "show")
-                git branch --merged $branch_name | grep -v -P "\*|main|master|develop|release" | xargs -r echo git branch -d;
-                ;;
-            *)
-                git branch --merged $branch_name | grep -v -P "\*|main|master|develop|release" | xargs -r echo git branch -d;
-                ;;
-        esac
-    fi
+    case $action in
+        "run" | "")
+            rm-merge-enum $branch_name | xargs -r git branch -d;
+            ;;
+        "show")
+            rm-merge-enum $branch_name | xargs -r echo git branch -d;
+            ;;
+        *)
+            rm-merge-enum $branch_name | xargs -r echo git branch -d;
+            ;;
+    esac
 }
 
 
