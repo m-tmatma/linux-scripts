@@ -32,3 +32,4 @@ function rm-merge() {
 
 
 alias
+declare -F | tail
