@@ -17,17 +17,17 @@ alias syncfork='gh repo list --limit 200  --fork --json nameWithOwner  --jq '\''
 
 function rm-merge-base() {
     branch_name=$1
-    git show-branch remotes/origin/$branch_name > /dev/null  2>&1;
+    git show-branch remotes/$branch_name > /dev/null  2>&1;
     if [ $? -eq 0 ]; then
-        git branch --merged origin/$branch_name | grep -v -P "\*|main|master|develop|release" | xargs -r git branch -d;
+        git branch --merged $branch_name | grep -v -P "\*|main|master|develop|release" | xargs -r git branch -d;
     fi
 }
 
 
 function rm-merge() {
-    rm-merge-base master
-    rm-merge-base develop
-    rm-merge-base main
+    rm-merge-base origin/master
+    rm-merge-base origin/develop
+    rm-merge-base origin/main
 }
 
 
