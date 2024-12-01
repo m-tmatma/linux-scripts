@@ -26,8 +26,8 @@ sudo apt-get update
 sudo apt-get install -y code gh
 
 # サービスの設定と起動
-sudo systemctl start  avahi-daemon ssh smbd
-sudo systemctl enable avahi-daemon ssh smbd
+sudo systemctl start  avahi-daemon ssh smbd nmbd
+sudo systemctl enable avahi-daemon ssh smbd nmbd
 
 # ファイアウォールの設定
 sudo ufw enable
