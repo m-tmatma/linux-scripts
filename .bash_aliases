@@ -3,8 +3,20 @@ if [ -e /etc/bash_completion.d/git-prompt ]; then
     PS1='\[\e]0;\u@\h: \w\a\]${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\] $(__git_ps1 " (%s)") \$ '
 fi
 
-alias co='git rev-parse --is-inside-git-dir > /dev/null 2>&1 \
-  && git checkout $(git branch -a | grep -v "/HEAD" | peco | sed -r "s#^\\s+remotes/origin/##" | sed -r "s#^\*\s+##")'
+co() {
+    git rev-parse --is-inside-git-dir > /dev/null 2>&1 || return
+    local selected
+    selected=$(git branch -a | grep -v '/HEAD' | peco | sed -r 's#^\*?\s+##')
+    [ -z "$selected" ] && return
+    if [[ "$selected" == remotes/* ]]; then
+        local remote_branch=${selected#remotes/}
+        local remote=${remote_branch%%/*}
+        local branch=${remote_branch#*/}
+        git checkout -b "$branch" "$remote/$branch" 2>/dev/null || git checkout "$branch"
+    else
+        git checkout "$selected"
+    fi
+}
 
 alias p='git push origin HEAD -u'
 alias pf='git push origin HEAD -u --force-with-lease'
@@ -22,8 +34,20 @@ if [ -e /etc/bash_completion.d/git-prompt ]; then
     PS1='\[\e]0;\u@\h: \w\a\]${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\] $(__git_ps1 " (%s)") \$ '
 fi
 
-alias co='git rev-parse --is-inside-git-dir > /dev/null 2>&1 \
-  && git checkout $(git branch -a | grep -v "/HEAD" | peco | sed -r "s#^\\s+remotes/origin/##" | sed -r "s#^\*\s+##")'
+co() {
+    git rev-parse --is-inside-git-dir > /dev/null 2>&1 || return
+    local selected
+    selected=$(git branch -a | grep -v '/HEAD' | peco | sed -r 's#^\*?\s+##')
+    [ -z "$selected" ] && return
+    if [[ "$selected" == remotes/* ]]; then
+        local remote_branch=${selected#remotes/}
+        local remote=${remote_branch%%/*}
+        local branch=${remote_branch#*/}
+        git checkout -b "$branch" "$remote/$branch" 2>/dev/null || git checkout "$branch"
+    else
+        git checkout "$selected"
+    fi
+}
 
 alias p='git push origin HEAD -u'
 alias pf='git push origin HEAD -u --force-with-lease'
