@@ -8,14 +8,21 @@ co() {
     local selected
     selected=$(git branch -a | grep -v '/HEAD' | peco | sed -r 's#^\*?\s+##')
     [ -z "$selected" ] && return
+    local -a cmd
     if [[ "$selected" == remotes/* ]]; then
         local remote_branch=${selected#remotes/}
         local remote=${remote_branch%%/*}
         local branch=${remote_branch#*/}
-        git checkout -b "$branch" "$remote/$branch" 2>/dev/null || git checkout "$branch"
+        if git show-ref --verify --quiet "refs/heads/$branch"; then
+            cmd=(git checkout "$branch")
+        else
+            cmd=(git checkout -b "$branch" "$remote/$branch")
+        fi
     else
-        git checkout "$selected"
+        cmd=(git checkout "$selected")
     fi
+    echo "${cmd[*]}"
+    "${cmd[@]}"
 }
 
 alias p='git push origin HEAD -u'
